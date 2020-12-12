@@ -1,0 +1,112 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+# Sendgrid
+notify:
+  - name: roland_email
+    platform: sendgrid
+    api_key: !secret sendgrid_token
+    sender: home@lukacsroland.com
+    recipient: !secret email_roland
+  - name: petra_email
+    platform: sendgrid
+    api_key: !secret sendgrid_token
+    sender: home@lukacsroland.com
+    recipient: !secret email_petra
+
+# Influxdb
+influxdb:
+  api_version: 1
+  host: 192.168.1.3
+  username: !secret influx_user
+  password: !secret influx_password
+  database: db0
+  include:
+    entities:
+      - binary_sensor.entrance_door_1
+      - binary_sensor.livingroom_motion_1
+      - light.bathroom_ceilinglight_1
+
+# Yeelight
+discovery:
+  ignore:
+    - yeelight
+yeelight:
+  devices:
+    192.168.1.20:
+      name: Bathroom ceiling light
+      model: ceiling4
+    192.168.1.21:
+      name: Living room ceiling light 1
+      model: ceiling4
+
+# Binary sensors
+binary_sensor:
+  - platform: ping
+    name: livingroom_television
+    host: 192.168.1.13
+    count: 3
+    scan_interval: 30
+  - platform: template
+    sensors:
+      livingroom_television_sensor:
+        friendly_name: "Samsung TV"
+        value_template: "{{ is_state('binary_sensor.livingroom_television', 'on') }}"
+
+# Inputs
+input_select:
+  livingroom_ac_mode:
+    name: Mode of AC
+    options:
+      - Auto
+      - Cool
+      - Dry
+      - Fan
+      - Heat
+    initial: Auto
+
+# Switches
+switch:
+  - platform: broadlink
+    mac: "24:DF:A7:E4:8A:4F"
+    switches: 
+      - name: livingrooom_ac
+        command_on: "JgBkAWMAASYTDhIwERAREBEQERAREBEQERARMBIPEg8SMBEQERARMREwETERMBIwERAREBEQERAREBEQERAREBEQERAREBEQERAREBEPEg8SDxEQERAREBEQERAREBEQERAREBEQERAREBEQERAREBIvETERMREwEmFkAAElEjASDxEQERASDxEQERAREBEQETASDxIPEjAREBIwETASMBExETARMREQERAREBEQEg8REBEPERESDhIPEg8SDxIPERAREBEQERAREBEQERAREBEQERAREBEQERAREBEQERAREBEPEhARDxIPEg8SDxJAYwABJxEwEg8REBEQERAREBEQERAREBExERAREBEwERARMREwEg8SMBIwETARMRExETARMREwEg8SDxIPEjARMREwERAREBEQERAREBEQERAREBIwETAREBExETASDxIPEg8SDxEQERAREBEQEjARMBIwETERAA0FAAA="
+        command_off: "JgBkAWIAAScREBExERARDxIPEg8SDxEQERARMREQERARMBIuExARMREwETERMREwERAREBEQERAREBEQERAREBEQERAREBEQERAREBEQERAREBEPEg8SDxEQERAREBEQERAREBEQERAREBEQERAREBEQERARMBIvEmJkAAElEjAREBEQERAREBEQEg8REBEQETAREBEQETEREBEwEjASMBIvETERMREQEQ8SDxIPEg8SDxIPERAREBEQEg8REBEQERAREBEQERAREBEQERAREBEQERAREBEQEQ8SDxIPEg8REBEQERAREBEQERAREBFSYgABJxIvEhARDxIPEg8REBIPERAREBExERAREBEQETARMRExERARMBExETASMBExETASMBIwERAREBEQETARMREwEg8SDxIPEg8SDxEQERAREBExETASDxIwERARMREwERAREBEQERAREBEQERAREBExETARAA0FAAA="
+
+# Alerts
+alert:
+  bathroom_light:
+    name: Bathroom ceiling light is still on
+    done_message: Bathroom ceiling light is off
+    entity_id: light.bathroom_ceilinglight_1
+    state: 'on'
+    repeat: 60
+    can_acknowledge: true
+    skip_first: true
+    notifiers:
+      - roland_email
+      - petra_email
+  entrance_door:
+    name: Entrance door is still open
+    done_message: Entrance door is closed
+    entity_id: binary_sensor.entrance_door_1
+    state: 'on'
+    repeat: 10
+    can_acknowledge: true
+    skip_first: true
+    notifiers:
+      - roland_email
+      - petra_email
+
+
+

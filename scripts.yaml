@@ -1,0 +1,48 @@
+tv_and_settopbox_off:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.livingroom_broadlinkremote
+        device: set_top_box
+        command: "off"
+    - service: remote.send_command
+      data:
+        entity_id: remote.livingroom_broadlinkremote
+        device: tv
+        command: "off"
+tv_hdmi1:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.livingroom_broadlinkremote
+        device: tv
+        delay_secs: 1
+        command: 
+          - ch up
+          - source
+          - source
+tv_hdmi2:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.livingroom_broadlinkremote
+        device: tv
+        delay_secs: 1
+        command: 
+          - ch up
+          - source
+          - source
+          - source
+tv_hdmi3:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.livingroom_broadlinkremote
+        device: tv
+        delay_secs: 1
+        command: 
+          - ch up
+          - source
+          - source
+          - source
+          - source
