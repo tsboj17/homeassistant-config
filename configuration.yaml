@@ -62,6 +62,28 @@ binary_sensor:
         friendly_name: "Samsung TV"
         value_template: "{{ is_state('binary_sensor.livingroom_television', 'on') }}"
 
+sensor:
+  - platform: template
+    sensors:
+      livingroom_window:
+        friendly_name: "Living room window"
+        value_template: >-
+          {% if is_state('binary_sensor.livingroom_window_1_bottom', 'on') and is_state('binary_sensor.livingroom_window_1_up', 'on') %}
+            Opened
+          {% elif is_state('binary_sensor.livingroom_window_1_bottom', 'off') and is_state('binary_sensor.livingroom_window_1_up', 'on') %}
+            Half-Opened
+          {% elif is_state('binary_sensor.livingroom_window_1_bottom', 'off') and is_state('binary_sensor.livingroom_window_1_up', 'off') %}
+            Closed
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.livingroom_window_1_bottom', 'on') and is_state('binary_sensor.livingroom_window_1_up', 'on') %}
+            mdi:window-open-variant
+          {% elif is_state('binary_sensor.livingroom_window_1_bottom', 'off') and is_state('binary_sensor.livingroom_window_1_up', 'on') %}
+            mdi:window-open
+          {% elif is_state('binary_sensor.livingroom_window_1_bottom', 'off') and is_state('binary_sensor.livingroom_window_1_up', 'off') %}
+            mdi:window-closed
+          {% endif %}
+
 # Inputs
 input_select:
   livingroom_ac_mode:
