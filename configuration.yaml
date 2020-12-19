@@ -61,6 +61,47 @@ binary_sensor:
       livingroom_television_sensor:
         friendly_name: "Samsung TV"
         value_template: "{{ is_state('binary_sensor.livingroom_television', 'on') }}"
+  - platform: template
+    sensors:
+      bathroom_washer_status:
+        friendly_name: "Washer"
+        value_template: >-
+          {% if states('sensor.bathroom_washing_power_1') | float > 0 %}
+            On
+          {% else %}
+            Off
+          {% endif %}
+  - platform: template
+    sensors:
+      bathroom_dryer_status:
+        friendly_name: "Dryer"
+        value_template: >-
+          {% if states('sensor.bathroom_dryer_power_1') | float > 0 %}
+            On
+          {% else %}
+            Off
+          {% endif %}
+  - platform: template
+    sensors:
+      kitchen_dishwasher_status:
+        friendly_name: "Dishwasher"
+        value_template: >-
+          {% if states('sensor.kitchen_dishwasher_power_1') | float > 0 %}
+            On
+          {% else %}
+            Off
+          {% endif %}
+  - platform: template
+    sensors:
+      kitchen_oven_status:
+        friendly_name: "Oven"
+        value_template: >-
+          {% if states('sensor.kitchen_oven_power_1') | float > 0 %}
+            On
+          {% else %}
+            Off
+          {% endif %}
+
 
 sensor:
   - platform: template
