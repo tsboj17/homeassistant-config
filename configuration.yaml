@@ -102,7 +102,6 @@ binary_sensor:
             Off
           {% endif %}
 
-
 sensor:
   - platform: template
     sensors:
@@ -139,6 +138,46 @@ input_select:
 
 # Switches
 switch:
+  - platform: template
+    switches:
+      bathroom_ceiling_moonlight:
+        friendly_name: Bathroom moonlight
+        value_template: "{{ is_state('binary_sensor.bathroom_ceilinglight_1_nightlight', 'on') }}"
+        icon_template: >-
+          {% if is_state('binary_sensor.bathroom_ceilinglight_1_nightlight', 'on') %}
+            mdi:lightbulb-on
+          {% else %}
+            mdi:lightbulb-off
+          {% endif %}
+        turn_on:
+          service: yeelight.set_mode
+          data:
+            entity_id: light.bathroom_ceilinglight_1
+            mode: moonlight
+        turn_off:
+          service: yeelight.set_mode
+          data:
+            entity_id: light.bathroom_ceilinglight_1
+            mode: normal
+      livingroom_ceiling_1_moonlight:
+        friendly_name: Living room moonlight 1
+        value_template: "{{ is_state('binary_sensor.livingroom_ceiling_light_1_nightlight', 'on') }}"
+        icon_template: >-
+          {% if is_state('binary_sensor.livingroom_ceiling_light_1_nightlight', 'on') %}
+            mdi:lightbulb-on
+          {% else %}
+            mdi:lightbulb-off
+          {% endif %}
+        turn_on:
+          service: yeelight.set_mode
+          data:
+            entity_id: light.livingroom_ceiling_light_1
+            mode: moonlight
+        turn_off:
+          service: yeelight.set_mode
+          data:
+            entity_id: light.livingroom_ceiling_light_1
+            mode: normal
   - platform: broadlink
     mac: "24:DF:A7:E4:8A:4F"
     switches: 
