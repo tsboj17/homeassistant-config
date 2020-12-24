@@ -106,9 +106,9 @@ binary_sensor:
   - platform: template
     sensors:
       kitchen_oven_status:
-        friendly_name: "Oven"
+        friendly_name: "Cooked hood"
         value_template: >-
-          {% if states('sensor.kitchen_oven_power_1') | float > 0 %}
+          {% if states('sensor.kitchen_cookerhood_power_1') | float > 0 %}
             On
           {% else %}
             Off
