@@ -13,3 +13,8 @@ yeelight_to_influx:
   influx_db: db0
   entities:
     - light.bathroom_ceilinglight_1
+    - light.bedroom_ceiling_light_1
+    - light.kitchen_ceiling_light_1
+    - light.living_room_ceiling_light_2
+    - light.livingroom_ceiling_light_1
+    - light.lobby_ceiling_light_1
