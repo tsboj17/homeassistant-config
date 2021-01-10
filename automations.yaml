@@ -1,1 +1,30 @@
-[]
+- id: '1609282550337'
+  alias: Turn off the xmas tree lights
+  description: ''
+  trigger:
+  - platform: time
+    at: 02:00:00
+  condition: []
+  action:
+  - service: remote.send_command
+    data:
+      entity_id: remote.livingroom_broadlinkremote
+      device: xmas_tree_light
+      command: 'off'
+    entity_id: remote.livingroom_broadlinkremote
+  mode: single
+- id: '1609282653298'
+  alias: Turn on the xmas tree lights
+  description: ''
+  trigger:
+  - platform: time
+    at: 09:00:00
+  condition: []
+  action:
+  - service: remote.send_command
+    data:
+      entity_id: remote.livingroom_broadlinkremote
+      device: xmas_tree_light
+      command: 'on'
+    entity_id: remote.livingroom_broadlinkremote
+  mode: single
