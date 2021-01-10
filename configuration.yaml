@@ -34,7 +34,36 @@ influxdb:
     entities:
       - binary_sensor.entrance_door_1
       - binary_sensor.livingroom_motion_1
+      # lights
       - light.bathroom_ceilinglight_1
+      - light.bedroom_ceiling_light_1
+      - light.livingroom_ceiling_light_1
+      - light.living_room_ceiling_light_2
+      - light.kitchen_ceiling_light_1
+      - light.lobby_ceiling_light_1
+      # kitchen
+      - sensor.kitchen_temperature_1
+      - sensor.kitchen_humidity_1
+      - sensor.kitchen_dishwasher_power_1
+      - sensor.kitchen_dishwasher_consumption_1
+      - sensor.kitchen_cookerhood_power_1
+      - sensor.kitchen_cookerhood_consumption_1
+      # living room
+      - sensor.livingroom_temperature_1
+      - sensor.livingroom_humidity_1
+      - sensor.livingroom_window
+      - binary_sensor.livingroom_television_sensor
+      # bedroom
+      - sensor.bedroom_temperature_1
+      - sensor.bedroom_humidity_1
+      # bathroom
+      - sensor.bathroom_temperature_1
+      - sensor.bathroom_humidity_1
+      - sensor.bathroom_washing_power_1
+      - sensor.bathroom_washing_consumption_1
+      - sensor.bathroom_dryer_power_1
+      - sensor.bathroom_dryer_consumption_1
+      
 
 # Yeelight
 discovery:
@@ -108,7 +137,7 @@ binary_sensor:
       kitchen_oven_status:
         friendly_name: "Cooked hood"
         value_template: >-
-          {% if states('sensor.kitchen_cookerhood_power_1') | float > 0 %}
+          {% if states('sensor.kitchen_cookerhood_power_1') | float > 1 %}
             On
           {% else %}
             Off
